@@ -24,4 +24,10 @@ public class HomeViewController {
 		return "register";
 	}
 	
+	@GetMapping("/product")
+	public String product() {
+		
+		return "product";
+	}
+	
 }
