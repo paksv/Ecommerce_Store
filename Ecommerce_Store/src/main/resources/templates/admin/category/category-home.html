@@ -15,9 +15,11 @@
 							<p class="fs-4">Add Category</p>
 							<th:block th:if="${session.successMsg}">
 								<p class="text-success fw-bold text-center mt-2">[[${session.successMsg}]]</p>
+								<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
 							</th:block>
 							<th:block th:if="${session.errorMsg}">
 								<p class="text-danger fw-bold text-center mt-2">[[${session.errorMsg}]]</p>
+								<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
 							</th:block>
 
 						</div>
