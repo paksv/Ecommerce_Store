@@ -10,9 +10,11 @@ import java.nio.file.StandardCopyOption;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -38,8 +40,8 @@ public class AdminViewController {
 	}
 	
 	@GetMapping("/category")
-	public String category() {
-		
+	public String category(Model model) {
+		model.addAttribute("allCategoryList",categoryService.getAllCategories());
 		return "admin/category/category-home";
 	}
 
@@ -76,6 +78,18 @@ public class AdminViewController {
 			
 		}
 		
+		
+		return "redirect:/admin/category";
+	}
+	
+	@GetMapping("/delete-category/{id}")
+	public String deleteCategory(@PathVariable("id") long id, HttpSession session) {
+		Boolean deleteCategory = categoryService.deleteCategory(id);
+		if(deleteCategory) {
+			session.setAttribute("successMsg", "Category Deleted Successfully");
+		}else {
+			session.setAttribute("errorMsg", "Server Error");
+		}
 		
 		return "redirect:/admin/category";
 	}

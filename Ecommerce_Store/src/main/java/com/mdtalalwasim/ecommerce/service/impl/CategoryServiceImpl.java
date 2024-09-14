@@ -1,9 +1,11 @@
 package com.mdtalalwasim.ecommerce.service.impl;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 
 import com.mdtalalwasim.ecommerce.entity.Category;
 import com.mdtalalwasim.ecommerce.repository.CategoryRepository;
@@ -30,6 +32,20 @@ public class CategoryServiceImpl implements CategoryService{
 	public boolean existCategory(String categoryName) {
 		// TODO Auto-generated method stub
 		return categoryRepository.existsByCategoryName(categoryName);
+	}
+
+	@Override
+	public Boolean deleteCategory(long id) {
+		// TODO Auto-generated method stub
+		
+		Category categoryFound = categoryRepository.findById(id).orElse(null);
+		
+		if(!ObjectUtils.isEmpty(categoryFound)) {
+			categoryRepository.delete(categoryFound);
+			return true;
+		}
+		
+		return false;
 	}
 
 }
