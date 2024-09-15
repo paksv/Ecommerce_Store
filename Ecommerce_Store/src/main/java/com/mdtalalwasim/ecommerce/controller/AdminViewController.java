@@ -72,7 +72,7 @@ public class AdminViewController {
 				System.out.println("File save Path :"+path);
 				
 				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-				
+				//set Suceesss Msg to Session
 				session.setAttribute("successMsg", "Category Save Successfully.");
 			}
 			
