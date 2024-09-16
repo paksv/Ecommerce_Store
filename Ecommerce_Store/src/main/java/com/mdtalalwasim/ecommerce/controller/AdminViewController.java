@@ -6,10 +6,15 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.format.datetime.DateFormatter;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -42,7 +47,17 @@ public class AdminViewController {
 	
 	@GetMapping("/category")
 	public String category(Model model) {
-		model.addAttribute("allCategoryList",categoryService.getAllCategories());
+		List<Category> allCategories = categoryService.getAllCategories();
+		for (Category category : allCategories) {
+			category.getCreatedAt();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
+			String format = formatter.format(category.getCreatedAt());
+			model.addAttribute("formattedDateTimeCreatedAt",format);
+			
+		}
+		
+		model.addAttribute("allCategoryList",allCategories);
+		
 		return "admin/category/category-home";
 	}
 
@@ -79,6 +94,63 @@ public class AdminViewController {
 			
 		}
 		
+		
+		return "redirect:/admin/category";
+	}
+	
+	@PostMapping("/update-category")
+	public String udateCategory(@ModelAttribute Category category, @RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
+		System.out.println("Category for UPDATE :"+category.toString());
+		
+		Optional<Category> categoryById = categoryService.findById(category.getId());
+		System.out.println("Category obj"+categoryById.toString());
+		
+		
+		if(categoryById.isPresent()) {
+			System.out.println("Present:");
+			Category oldCategory = categoryById.get();
+			System.out.println("Category old Obj "+oldCategory.toString());
+			oldCategory.setCategoryName(category.getCategoryName());
+			oldCategory.setIsActive(category.getIsActive());
+			//oldCategory.setUpdatedAt(LocalDateTime.now());
+			
+			
+			String imageName =  file.isEmpty() ?  oldCategory.getCategoryImage() : file.getOriginalFilename();
+			oldCategory.setCategoryImage(imageName);	
+			
+			Category updatedCategory = categoryService.saveCategory(oldCategory);
+			
+			if(!ObjectUtils.isEmpty(updatedCategory)) {
+				//save File
+				if(!file.isEmpty()) {
+					File saveFile = new ClassPathResource("static/img").getFile();
+					Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+"category"+File.separator+file.getOriginalFilename());
+					
+					Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+				}
+				
+				session.setAttribute("successMsg", "Category Updated Successfully");
+			}else {
+				session.setAttribute("errorMsg", "Something wrong on server!");
+			}
+			
+			
+			
+			//OR
+//			if(file!=null) {
+//				String newImageName = file.getOriginalFilename();
+//				System.out.println("File name: "+newImageName);
+//				oldCategory.setCategoryImage(newImageName);
+//			}else {
+//				String oldOriginalImg = oldCategory.getCategoryImage();
+//				System.out.println("File name ELSE: "+oldOriginalImg);
+//				oldCategory.setCategoryImage(oldOriginalImg);
+//			}
+			
+			
+		}else {
+			System.out.println("Not Present:");
+		}
 		
 		return "redirect:/admin/category";
 	}
