@@ -48,4 +48,10 @@ public class CategoryServiceImpl implements CategoryService{
 		return false;
 	}
 
+	@Override
+	public Optional<Category> findById(long id) {
+		// TODO Auto-generated method stub
+		return categoryRepository.findById(id);
+	}
+
 }

@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
@@ -92,6 +93,19 @@ public class AdminViewController {
 		}
 		
 		return "redirect:/admin/category";
+	}
+	
+	@GetMapping("/edit-category/{id}")
+	public String editCategoryForm(@PathVariable("id") long id, Model model) {
+		//System.out.println("ID :"+id);
+		Optional<Category> categoryObj = categoryService.findById(id);
+		if(categoryObj.isPresent()) {
+			Category category = categoryObj.get();
+			model.addAttribute("category", category);
+		}else {
+			System.out.println("ELSEEEEE");
+		}
+		return "/admin/category/category-edit-form";
 	}
 
 
