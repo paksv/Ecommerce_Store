@@ -60,6 +60,12 @@ public class AdminViewController {
 		
 		return "admin/category/category-home";
 	}
+	
+	@GetMapping("/add-category")
+	public String addCategory(Model model) {
+		
+		return "admin/category/category-add-form";
+	}
 
 	
 	@GetMapping("/add-product")

@@ -14,14 +14,8 @@
 	<section>
 		<div class="container-fluid p-5">
 			<div class="row">
-				<div class="col-md-4">
-					<a th:href="@{'/admin/add-category'}" class="btn btn-danger mb-3">Add Category</a>
-				</div>
-			</div>
-			
-			<div class="row">
 				
-				<!-- <div class="col-md-4">
+				<div class="col-md-4 offset-md-4" >
 					<div class="card custom-card-shadow">
 						<div class="card-header text-center">
 							<p class="fs-4">Add Category</p>
@@ -70,67 +64,9 @@
 							</form>
 						</div>
 					</div>
-				</div> -->
-
-				<div class="col-md-12">
-					<div class="card custom-card-shadow">
-						<div class="card-header text-center fs-4">List of Category</div>
-						<div class="card-body">
-							<table id="categoryTable" class="display" cellspacing="0" width="100%" >
-								<thead>
-									<tr>
-										<th scope="col">ID</th>
-										<th scope="col">Category</th>
-										<th scope="col">Status</th>
-										<th scope="col">Image</th>
-										<th scope="col">Date</th>
-										<th scope="col">Actions</th>
-									</tr>
-								</thead>
-
-								<!-- <tfoot>
-									<tr>
-										<th scope="col">SL No.</th>
-										<th scope="col">Category</th>
-										<th scope="col">Status</th>
-										<th scope="col">Image</th>
-										<th scope="col">Date</th>
-										<th scope="col">Actions</th>
-									</tr>
-								</tfoot> -->
-								
-								<!-- <tbody id="example" class="display" cellspacing="0" width="100%">
-									
-								</tbody> -->
-
-
-								<tbody>
-									<tr th:each="category, count: ${allCategoryList}">
-										<!-- <td th:text="${count.count}"></td> -->
-										<td th:text="${category.id}"></td>
-										<td th:text="${category.categoryName}"></td>
-										<td th:text="${category.isActive}"></td>
-										<td><img th:src="@{'/img/category/'+${category.categoryImage}}" width="50px" height="50px"></td>
-										<!-- <td th:text="${category.categoryImage}"></td> -->
-										<td th:text="${formattedDateTimeCreatedAt}"></td>
-										<td>
-										&nbsp; <a th:href="@{'/admin/edit-category/'+${category.id}}" class="btn btn-info btn-sm"><i class="fa-solid fa-pen-to-square text-decoration-none"></i></a>&nbsp; &nbsp; 
-										<a th:href="@{'/admin/delete-category/'+${category.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure want to delete this?');"><i class="fa-solid fa-trash text-decoration-none"></i></a>
-										</td>
-										<!-- <td><a
-											th:href="@{/category/edit/{id}(id=${category.id})}"
-											class="btn btn-primary btn-sm">Edit</a> <a
-											th:href="@{/category/delete/{id}(id=${category.id})}"
-											class="btn btn-danger btn-sm"
-											onclick="return confirm('Are you sure you want to delete this category?');">Delete</a>
-										</td> -->
-									</tr>
-								</tbody>
-	
-							</table>
-						</div>
-					</div>
 				</div>
+
+				
 			</div>
 		</div>
 
