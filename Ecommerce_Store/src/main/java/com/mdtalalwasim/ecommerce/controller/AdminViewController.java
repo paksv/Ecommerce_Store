@@ -69,8 +69,9 @@ public class AdminViewController {
 
 	
 	@GetMapping("/add-product")
-	public String addProduct() {
-		
+	public String addProduct(Model model) {
+		List<Category> allCategories = categoryService.getAllCategories();
+		model.addAttribute("allCategoryList",allCategories);
 		return "admin/product/add-product";
 	}
 	

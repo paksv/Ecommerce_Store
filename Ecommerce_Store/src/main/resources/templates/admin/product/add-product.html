@@ -27,9 +27,10 @@
 									<div class="mb-3">
 										<label>Category</label>
 										<select class="form-control">
-											<option>--Select--</option>
-											<option>Electronics</option>
-											<option>Phone</option>
+											<option value="">------Select Category------</option>
+											<option th:each="category :${allCategoryList}" th:value="${category.id}" th:text="${category.categoryName}"></option>
+											<!-- <option>Electronics</option> -->
+											<!-- <option>Phone</option> -->
 										</select>
 									</div>
 									
