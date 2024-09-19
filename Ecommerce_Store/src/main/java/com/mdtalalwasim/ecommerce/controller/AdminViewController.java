@@ -27,7 +27,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.mdtalalwasim.ecommerce.entity.Category;
+import com.mdtalalwasim.ecommerce.entity.Product;
 import com.mdtalalwasim.ecommerce.service.CategoryService;
+import com.mdtalalwasim.ecommerce.service.ProductService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -38,6 +40,9 @@ public class AdminViewController {
 	@Autowired
 	CategoryService categoryService;
 	
+	@Autowired
+	ProductService productService;
+	
 	
 	@GetMapping("/")
 	public String adminIndex() {
@@ -45,34 +50,13 @@ public class AdminViewController {
 		return "admin/admin-dashboard";
 	}
 	
-	@GetMapping("/category")
-	public String category(Model model) {
-		List<Category> allCategories = categoryService.getAllCategories();
-		for (Category category : allCategories) {
-			category.getCreatedAt();
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
-			String format = formatter.format(category.getCreatedAt());
-			model.addAttribute("formattedDateTimeCreatedAt",format);
-			
-		}
-		
-		model.addAttribute("allCategoryList",allCategories);
-		
-		return "admin/category/category-home";
-	}
+	
+	//CATEGORY-MODULE-START
 	
 	@GetMapping("/add-category")
 	public String addCategory(Model model) {
 		
 		return "admin/category/category-add-form";
-	}
-
-	
-	@GetMapping("/add-product")
-	public String addProduct(Model model) {
-		List<Category> allCategories = categoryService.getAllCategories();
-		model.addAttribute("allCategoryList",allCategories);
-		return "admin/product/add-product";
 	}
 	
 	@PostMapping("/save-category")
@@ -104,6 +88,37 @@ public class AdminViewController {
 		
 		return "redirect:/admin/category";
 	}
+
+	@GetMapping("/category")
+	public String category(Model model) {
+		List<Category> allCategories = categoryService.getAllCategories();
+		for (Category category : allCategories) {
+			category.getCreatedAt();
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
+			String format = formatter.format(category.getCreatedAt());
+			model.addAttribute("formattedDateTimeCreatedAt",format);
+			
+		}
+		
+		model.addAttribute("allCategoryList",allCategories);
+		
+		return "admin/category/category-home";
+	}
+	
+	
+	@GetMapping("/edit-category/{id}")
+	public String editCategoryForm(@PathVariable("id") long id, Model model) {
+		//System.out.println("ID :"+id);
+		Optional<Category> categoryObj = categoryService.findById(id);
+		if(categoryObj.isPresent()) {
+			Category category = categoryObj.get();
+			model.addAttribute("category", category);
+		}else {
+			System.out.println("ELSEEEEE");
+		}
+		return "/admin/category/category-edit-form";
+	}
+	
 	
 	@PostMapping("/update-category")
 	public String udateCategory(@ModelAttribute Category category, @RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
@@ -132,7 +147,7 @@ public class AdminViewController {
 				if(!file.isEmpty()) {
 					File saveFile = new ClassPathResource("static/img").getFile();
 					Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+"category"+File.separator+file.getOriginalFilename());
-					
+					System.out.println("File Update path: "+path);
 					Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
 				}
 				
@@ -174,17 +189,38 @@ public class AdminViewController {
 		return "redirect:/admin/category";
 	}
 	
-	@GetMapping("/edit-category/{id}")
-	public String editCategoryForm(@PathVariable("id") long id, Model model) {
-		//System.out.println("ID :"+id);
-		Optional<Category> categoryObj = categoryService.findById(id);
-		if(categoryObj.isPresent()) {
-			Category category = categoryObj.get();
-			model.addAttribute("category", category);
+	
+	//PRODUCT-MODULE-START
+	
+	@GetMapping("/add-product")
+	public String addProduct(Model model) {
+		List<Category> allCategories = categoryService.getAllCategories();
+		model.addAttribute("allCategoryList",allCategories);
+		return "admin/product/add-product";
+	}
+	
+
+	
+	@PostMapping("/save-product")
+	public String saveProduct(@ModelAttribute Product product, @RequestParam("file") MultipartFile file, HttpSession session) throws IOException {
+		String imageName = file !=null ? file.getOriginalFilename() : "default.png"; 
+		
+		product.setProductImage(imageName);
+		
+		Product saveProduct = productService.saveProduct(product);
+		 
+		if(!ObjectUtils.isEmpty(saveProduct)) {
+			File savefile = new ClassPathResource("static/img").getFile();
+			Path path = Paths.get(savefile.getAbsolutePath()+File.separator+"product_image"+File.separator+imageName);
+			System.out.println("File save Path :"+path);
+			Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+			session.setAttribute("successMsg", "Product Save Successfully.");
 		}else {
-			System.out.println("ELSEEEEE");
+			session.setAttribute("errorMsg", "Something Wrong on server while save Product");
+			//System.out.println("Something Wrong on server while save Product");
 		}
-		return "/admin/category/category-edit-form";
+		
+		return "redirect:/admin/add-product";
 	}
 
 

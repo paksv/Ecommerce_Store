@@ -12,8 +12,20 @@
 				<div class="col-md-6 offset-md-3">
 						<div class="card custom-card-shadow">
 							<div class="card-header text-center fs-4">Add Product</div>
+							
+							<!-- Showing message to UI end -->
+							<th:block th:if="${session.successMsg}">
+								<p class="text-success fw-bold text-center mt-2">[[${session.successMsg}]]</p>
+								<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+							</th:block>
+							<th:block th:if="${session.errorMsg}">f
+								<p class="text-danger fw-bold text-center mt-2">[[${session.errorMsg}]]</p>
+								<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+							</th:block>
+							<!-- Showing message to UI end -->
+							
 							<div class="card-body">
-								<form action="">
+								<form action="/admin/save-product" method="post" enctype="multipart/form-data">
 									<div class="mb-3">
 										<label>Enter Title</label>
 										<input type="text" name="productTitle" class="form-control">
@@ -26,9 +38,12 @@
 									
 									<div class="mb-3">
 										<label>Category</label>
-										<select class="form-control">
+										<select class="form-control" name="productCategory">
 											<option value="">------Select Category------</option>
-											<option th:each="category :${allCategoryList}" th:value="${category.id}" th:text="${category.categoryName}"></option>
+											<!-- This code-->
+											<!-- <option th:each="category :${allCategoryList}" th:value="${category.id}" th:text="${categor84438443y.categoryName}"></option> -->
+											<!-- or the below both will work -->
+											<option th:each="category :${allCategoryList}">[[${category.categoryName}]]</option>
 											<!-- <option>Electronics</option> -->
 											<!-- <option>Phone</option> -->
 										</select>
@@ -47,7 +62,7 @@
 
 									<div class="mb-3 col">
 										<label>Upload Image</label> <input type="file"
-											name="productImage" class="form-control">
+											name="file" class="form-control">
 									</div>
 								</div>
 								<button class="btn btn-danger col-md-12">Submit</button>	
