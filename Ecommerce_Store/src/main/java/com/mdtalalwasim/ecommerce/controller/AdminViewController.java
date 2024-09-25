@@ -196,7 +196,7 @@ public class AdminViewController {
 	public String addProduct(Model model) {
 		List<Category> allCategories = categoryService.getAllCategories();
 		model.addAttribute("allCategoryList",allCategories);
-		return "admin/product/add-product";
+		return "/admin/product/add-product";
 	}
 	
 
@@ -221,6 +221,12 @@ public class AdminViewController {
 		}
 		
 		return "redirect:/admin/add-product";
+	}
+	
+	@GetMapping("/product-list")
+	public String productList(Model model) {
+		model.addAttribute("productList", productService.getAllProducts());
+		return "/admin/product/product-list";
 	}
 
 
