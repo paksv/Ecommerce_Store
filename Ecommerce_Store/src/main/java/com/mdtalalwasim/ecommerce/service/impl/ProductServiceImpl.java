@@ -31,7 +31,14 @@ public class ProductServiceImpl implements ProductService{
 	@Override
 	public Boolean deleteProduct(long id) {
 		// TODO Auto-generated method stub
-		return null;
+		 Optional<Product> product = productRepository.findById(id);
+		 if(product.isPresent()) {
+			 productRepository.deleteById(product.get().getId());
+			 return true;
+		 }else {
+			 return false;
+		 }
+		 
 	}
 
 	@Override

@@ -8,6 +8,14 @@
 <body>
 	<section>
 		<div class="container-fluid p-5">
+			
+			
+			<div class="row">
+				<div class="col-md-4">
+					<a th:href="@{'/admin/add-product'}" class="btn btn-danger mb-3">Add Product</a>
+				</div>
+			</div>
+			
 			<div class="row">
 				<!-- <div class="col-md-4">
 					<div class="card custom-card-shadow">
@@ -28,9 +36,19 @@
 					</div>
 				</div> -->
 
-				<div class="col-md-10 offset-md-1">
+				<div class="col-md-12">
 					<div class="card custom-card-shadow">
 						<div class="card-header text-center fs-4">List of Products</div>
+
+						<th:block th:if="${session.successMsg}">
+							<p class="text-success fw-bold text-center mt-2">[[${session.successMsg}]]</p>
+							<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+						</th:block>
+						<th:block th:if="${session.errorMsg}">
+							<p class="text-danger fw-bold text-center mt-2">[[${session.errorMsg}]]</p>
+							<th:block th:text="${@commonServiceImpl.removeSessionMessage()}"></th:block>
+						</th:block>
+
 						<div class="card-body">
 							<table class="table">
 								<thead>
@@ -53,9 +71,9 @@
 										<td>[[${product.productPrice}]]</td>
 										<td>[[${product.productStock}]]</td>
 										<td>
-										<!-- th:href="@{'/admin/edit-category/'+${category.id}}" -->
+										<!-- th:href="@{'/admin/edit-category/'+${category.id}}" -->  
 										&nbsp; <a  class="btn btn-info btn-sm"><i class="fa-solid fa-pen-to-square text-decoration-none"></i></a>&nbsp; &nbsp; 
-										<a  class="btn btn-danger btn-sm"><i class="fa-solid fa-trash text-decoration-none"></i></a>
+										<a th:href="@{'/admin/delete-product/'+${product.id}}" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure want to delete this?');"><i class="fa-solid fa-trash text-decoration-none"></i></a>
 										<!-- th:href="@{'/admin/delete-category/'+${category.id}}" -->
 										</td>
 									</tr>
