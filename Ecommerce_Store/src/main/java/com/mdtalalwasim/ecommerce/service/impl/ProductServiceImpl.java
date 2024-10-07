@@ -78,6 +78,11 @@ public class ProductServiceImpl implements ProductService{
 		dbProductById.setProductStock(product.getProductStock());
 		dbProductById.setCreatedAt(product.getCreatedAt());
 		
+		//discount logic
+		dbProductById.setDiscount(product.getDiscount());
+		Double discount =product.getProductPrice()*(product.getDiscount()/100.0);
+		Double discountPrice= product.getProductPrice() - discount;
+		dbProductById.setDiscountPrice(discountPrice);
 		
 		Product updatedProduct = productRepository.save(dbProductById);
 		

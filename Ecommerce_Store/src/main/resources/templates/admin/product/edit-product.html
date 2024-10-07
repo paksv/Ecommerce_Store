@@ -38,23 +38,38 @@
 										<label>Description</label>
 										<textarea rows="3" cols="" name="productDescription" class="form-control">[[${product.productDescription}]]</textarea>
 									</div>
-									
-									<div class="mb-3">
-										<label>Category</label>
-										<select class="form-control" name="productCategory">
+								<div class="row">
+									<div class="mb-3 col">
+										<label>Category</label> <select class="form-control"
+											name="productCategory">
 											<option>[[${product.productCategory}]]</option>
 											<!-- This code-->
 											<!-- <option th:each="category :${allCategoryList}" th:value="${category.id}" th:text="${categor84438443y.categoryName}"></option> -->
 											<!-- or the below both will work -->
 											<option th:each="category :${allCategoryList}">[[${category.categoryName}]]</option>
-											
+
 										</select>
 									</div>
-									
-									<div class="mb-3">
-										<label>Price</label>
-										<input type="text" name="productPrice" class="form-control" th:value="${product.productPrice}">
+
+									<div class="mb-3 col">
+										<label>Price</label> <input type="text" name="productPrice"
+											class="form-control" th:value="${product.productPrice}">
 									</div>
+								</div>
+								
+								<div class="row">
+									<div class="mb-3 col">
+										<label>Discount</label> <input type="number" name="discount"
+											class="form-control" th:value="${product.discount}">
+									</div>
+
+									<div class="mb-3 col">
+										<label>Discount Price</label> <input type="text" readonly="readonly"
+											class="form-control" th:value="${product.discountPrice}">
+									</div>
+								</div>
+								
+								
 
 								<div class="row">
 									<div class="mb-3 col">

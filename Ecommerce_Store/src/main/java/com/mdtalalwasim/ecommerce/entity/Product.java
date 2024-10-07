@@ -42,6 +42,10 @@ public class Product {
 	
 	private String productImage;
 	
+	private int discount;
+	
+	private Double discountPrice;
+	
 	@CreationTimestamp
     private LocalDateTime createdAt;
 

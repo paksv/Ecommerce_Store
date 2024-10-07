@@ -58,6 +58,8 @@
 										<th scope="col">Title</th>
 										<th scope="col">Category</th>
 										<th scope="col">Price</th>
+										<th scope="col">Discount</th>
+										<th scope="col">Discount Price</th>
 										<th scope="col">Stock</th>
 										<th scope="col">Actions</th>
 									</tr>
@@ -69,6 +71,8 @@
 										<td>[[${product.productTitle}]]</td>
 										<td>[[${product.productCategory}]]</td>
 										<td>[[${product.productPrice}]]</td>
+										<td>[[${product.discount}]]</td>
+										<td>[[${product.discountPrice}]]</td>
 										<td>[[${product.productStock}]]</td>
 										<td>
 										<!-- th:href="@{'/admin/edit-category/'+${category.id}}" -->  
