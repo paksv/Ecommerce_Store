@@ -24,5 +24,5 @@ public interface ProductService {
 	
 	public Product updateProductById(Product product, MultipartFile file);
 	
-	List<Product> findAllActiveProducts();
+	List<Product> findAllActiveProducts(String category);
 }
