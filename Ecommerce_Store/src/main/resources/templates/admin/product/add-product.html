@@ -36,24 +36,38 @@
 										<label>Description</label>
 										<textarea rows="3" cols="" name="productDescription" class="form-control"></textarea>
 									</div>
-									
-									<div class="mb-3">
-										<label>Category</label>
-										<select class="form-control" name="productCategory">
-											<option value="">------Select Category------</option>
-											<!-- This code-->
-											<!-- <option th:each="category :${allCategoryList}" th:value="${category.id}" th:text="${categor84438443y.categoryName}"></option> -->
-											<!-- or the below both will work -->
-											<option th:each="category :${allCategoryList}">[[${category.categoryName}]]</option>
-											<!-- <option>Electronics</option> -->
-											<!-- <option>Phone</option> -->
-										</select>
+
+								<div class="mb-3">
+									<label>Category</label> <select class="form-control"
+										name="productCategory">
+										<option value="">------Select Category------</option>
+										<!-- This code-->
+										<!-- <option th:each="category :${allCategoryList}" th:value="${category.id}" th:text="${categor84438443y.categoryName}"></option> -->
+										<!-- or the below both will work -->
+										<option th:each="category :${allCategoryList}">[[${category.categoryName}]]</option>
+										<!-- <option>Electronics</option> -->
+										<!-- <option>Phone</option> -->
+									</select>
+								</div>
+
+								<div class="mb-3">
+									<label>Price</label> <input type="text" name="productPrice"
+										class="form-control">
+								</div>
+
+								<div class="mb-3">
+									<label>Status</label>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="isActive"
+											id="active" value="true" checked> <label
+											class="form-check-label" for="active"> Active</label>
 									</div>
-									
-									<div class="mb-3">
-										<label>Price</label>
-										<input type="text" name="productPrice" class="form-control">
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="isActive"
+											id="inactive" value="false"> <label
+											class="form-check-label" for="inactive"> Inactive</label>
 									</div>
+								</div>
 
 								<div class="row">
 									<div class="mb-3 col">

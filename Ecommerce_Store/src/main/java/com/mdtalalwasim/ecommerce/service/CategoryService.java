@@ -17,5 +17,7 @@ public interface CategoryService {
 	
 	public Optional<Category> findById(long id);
 	
+	List<Category> findAllActiveCategory();
+	
 
 }

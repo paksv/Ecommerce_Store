@@ -69,6 +69,20 @@
 									</div>
 								</div>
 								
+								<div class="mb-3">
+									<label>Status</label>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="isActive"
+											id="active" value="true" th:checked="${product.isActive == true}"> <label
+											class="form-check-label" for="active"> Active</label>
+									</div>
+									<div class="form-check">
+										<input class="form-check-input" type="radio" name="isActive" th:checked="${product.isActive == false}"
+											id="inactive" value="false"> <label
+											class="form-check-label" for="inactive"> Inactive</label>
+									</div>
+								</div>
+								
 								
 
 								<div class="row">
@@ -82,7 +96,7 @@
 											name="file" class="form-control">
 									</div>
 									
-									<div>
+									<div class="mb-3">
 										<img th:src="@{'/img/product_image/'+${product.productImage}}" width="110px;" height="90px;">
 									</div>
 									

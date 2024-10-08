@@ -1,10 +1,25 @@
 package com.mdtalalwasim.ecommerce.controller;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.mdtalalwasim.ecommerce.entity.Category;
+import com.mdtalalwasim.ecommerce.entity.Product;
+import com.mdtalalwasim.ecommerce.service.CategoryService;
+import com.mdtalalwasim.ecommerce.service.ProductService;
 
 @Controller
 public class HomeViewController {
+	
+	@Autowired
+	ProductService productService;
+	
+	@Autowired
+	CategoryService categoryService;
 	
 	@GetMapping("/")
 	public String homeIndex() {
@@ -25,8 +40,11 @@ public class HomeViewController {
 	}
 	
 	@GetMapping("/products")
-	public String product() {
-		
+	public String product(Model model) {
+		List<Category> allActiveCategory = categoryService.findAllActiveCategory();
+		List<Product> allActiveProducts = productService.findAllActiveProducts();
+		model.addAttribute("allActiveCategory", allActiveCategory);
+		model.addAttribute("allActiveProducts", allActiveProducts);
 		return "product";
 	}
 	
