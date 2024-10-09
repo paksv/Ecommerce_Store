@@ -66,6 +66,9 @@ element.style {
 						<div class="card-body">
 							<p class="fs-3 text-center">Products</p>
 							<div class="row">
+							
+							
+							<th:block th:if="${allActiveProducts.size > 0}">
 								<div class="col-md-3" th:each="product : ${allActiveProducts}">
 									<div class="card">
 										<div class="card-body">
@@ -80,14 +83,20 @@ element.style {
 													<span class="text-decoration-line-through text-secondary">
 														&#2547; [[${product.productPrice}]]</span> 
 													<span class="fs-6 text-success">[[${product.discount}]] %
-														off</span>
+														Off</span>
 												</p>
-												<a href="/product"
+												<a th:href="@{'/product/'+${product.id}}"
 													class="btn btn-danger col-md-6 offset-md-3 ">Details</a>
 											</div>
 										</div>
 									</div>
 								</div>
+							</th:block>
+							<th:block th:unless="${allActiveProducts.size > 0}">
+								<p class="fs-3 text-danger mt-3 text-center">No Products Found for this category!</p>
+							</th:block>
+							
+								
 
 
 
