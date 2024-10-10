@@ -1,27 +1,45 @@
 package com.mdtalalwasim.ecommerce.controller;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.mdtalalwasim.ecommerce.entity.Category;
 import com.mdtalalwasim.ecommerce.entity.Product;
+import com.mdtalalwasim.ecommerce.entity.UserDetails;
 import com.mdtalalwasim.ecommerce.service.CategoryService;
 import com.mdtalalwasim.ecommerce.service.ProductService;
+import com.mdtalalwasim.ecommerce.service.UserDetailsService;
+
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class HomeViewController {
-	
+	//without login
 	@Autowired
 	ProductService productService;
 	
 	@Autowired
 	CategoryService categoryService;
+	
+	@Autowired
+	UserDetailsService userDetailsService;
 	
 	@GetMapping("/")
 	public String homeIndex() {
@@ -54,10 +72,44 @@ public class HomeViewController {
 	}	
 	
 	@GetMapping("/product/{id}")
-	public String viewProduct(@PathVariable long id, Model model) {
+	public String viewProduct(@PathVariable long id, Model model) 
+	{
 		Product productById = productService.getProductById(id);
 		model.addAttribute("product",productById);
 		return "view-product";
+	}
+	
+	@PostMapping("/save-user")
+	public String saveUserDetails(@ModelAttribute UserDetails userDetails, @RequestParam("file") MultipartFile file, Model model, HttpSession session) throws IOException 
+	{
+		
+		String profileImage = file.isEmpty() ? "default.jpg" : file.getOriginalFilename();
+		userDetails.setProfileImage(profileImage);
+		
+		UserDetails saveUser = userDetailsService.saveUser(userDetails);
+		
+		if(!ObjectUtils.isEmpty(saveUser)) 
+		{
+			if(!file.isEmpty()) 
+			{
+				//get path to static/img directory
+				File saveFile =new ClassPathResource("static/img").getFile();
+				System.out.println("SaveFile is: "+saveFile);
+				
+				//full-path
+				Path path = Paths.get(saveFile.getAbsolutePath()+File.separator+"profile_img"+File.separator+file.getOriginalFilename());
+				System.out.println("Path for Profile Image :"+path);
+				
+				//now
+				Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+			}
+			session.setAttribute("successMsg", "User Registered Successfully");
+			
+		}else {
+			session.setAttribute("errorMsg", "Something wrong on server!");
+		}
+		//model.addAttribute("product",productById);
+		return "redirect:/register";
 	}
 	
 }
