@@ -21,7 +21,7 @@ import lombok.ToString;
 @Setter
 @Getter
 @ToString
-public class UserDetails {
+public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,6 +44,8 @@ public class UserDetails {
 	private String password;
 	
 	private String profileImage;
+	
+	private String role;
 	
 	
 	@CreationTimestamp

@@ -22,10 +22,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mdtalalwasim.ecommerce.entity.Category;
 import com.mdtalalwasim.ecommerce.entity.Product;
-import com.mdtalalwasim.ecommerce.entity.UserDetails;
+import com.mdtalalwasim.ecommerce.entity.User;
 import com.mdtalalwasim.ecommerce.service.CategoryService;
 import com.mdtalalwasim.ecommerce.service.ProductService;
-import com.mdtalalwasim.ecommerce.service.UserDetailsService;
+import com.mdtalalwasim.ecommerce.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -39,7 +39,7 @@ public class HomeViewController {
 	CategoryService categoryService;
 	
 	@Autowired
-	UserDetailsService userDetailsService;
+	UserService userService;
 	
 	@GetMapping("/")
 	public String homeIndex() {
@@ -80,13 +80,13 @@ public class HomeViewController {
 	}
 	
 	@PostMapping("/save-user")
-	public String saveUserDetails(@ModelAttribute UserDetails userDetails, @RequestParam("file") MultipartFile file, Model model, HttpSession session) throws IOException 
+	public String saveUserDetails(@ModelAttribute User user, @RequestParam("file") MultipartFile file, Model model, HttpSession session) throws IOException 
 	{
 		
 		String profileImage = file.isEmpty() ? "default.jpg" : file.getOriginalFilename();
-		userDetails.setProfileImage(profileImage);
+		user.setProfileImage(profileImage);
 		
-		UserDetails saveUser = userDetailsService.saveUser(userDetails);
+		User saveUser = userService.saveUser(user);
 		
 		if(!ObjectUtils.isEmpty(saveUser)) 
 		{
