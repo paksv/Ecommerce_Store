@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,24 @@ public class HomeViewController {
 	
 	@Autowired
 	UserService userService;
+	
+	//to track which user is login right Now
+	//by default call this method when any request come to this controller because of @ModelAttribut
+	@ModelAttribute 
+	public void getUserDetails(Principal principal, Model model) {
+		if(principal != null) {
+			String currenLoggedInUserEmail = principal.getName();
+			User currentUserDetails = userService.getUserByEmail(currenLoggedInUserEmail);
+			System.out.println("Current Logged In User is :: HOME Controller :: "+currentUserDetails.toString());
+			model.addAttribute("currentLoggedInUserDetails",currentUserDetails);
+			
+			
+		}
+		
+		List<Category> allActiveCategory = categoryService.findAllActiveCategory();
+		model.addAttribute("allActiveCategory",allActiveCategory);
+		
+	}
 	
 	@GetMapping("/")
 	public String homeIndex() {

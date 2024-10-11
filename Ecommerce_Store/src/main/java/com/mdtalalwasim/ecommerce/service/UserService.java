@@ -5,4 +5,6 @@ import com.mdtalalwasim.ecommerce.entity.User;
 public interface UserService {
 	
 	public User saveUser(User user);
+	
+	public User getUserByEmail(String email);
 }

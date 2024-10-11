@@ -50,8 +50,6 @@ public class SecurityConfig {
 				//.defaultSuccessUrl("/")//before implements authenticationsSuccessHandler.
 				//after implementation authenticationsSuccessHandler -> call successHandler 
 				.successHandler(authenticationSuccessHandler))
-		
-		
 		.logout(logout->logout.permitAll());
 		return http.build();
 		

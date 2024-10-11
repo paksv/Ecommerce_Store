@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -28,8 +29,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mdtalalwasim.ecommerce.entity.Category;
 import com.mdtalalwasim.ecommerce.entity.Product;
+import com.mdtalalwasim.ecommerce.entity.User;
 import com.mdtalalwasim.ecommerce.service.CategoryService;
 import com.mdtalalwasim.ecommerce.service.ProductService;
+import com.mdtalalwasim.ecommerce.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -42,7 +45,26 @@ public class AdminViewController {
 	
 	@Autowired
 	ProductService productService;
+
+	@Autowired
+	UserService userService;
 	
+	//to track which user is login right Now
+	//by default call this method when any request come to this controller because of @ModelAttribut
+	@ModelAttribute 
+	public void getUserDetails(Principal principal, Model model) {
+		if(principal != null) {
+			String currenLoggedInUserEmail = principal.getName();
+			User currentUserDetails = userService.getUserByEmail(currenLoggedInUserEmail);
+			System.out.println("Current Logged In User is :: ADMIN Controller :: "+currentUserDetails.toString());
+			model.addAttribute("currentLoggedInUserDetails",currentUserDetails);
+			
+			
+		}
+		List<Category> allActiveCategory = categoryService.findAllActiveCategory();
+		model.addAttribute("allActiveCategory",allActiveCategory);
+		
+	}
 	
 	@GetMapping("/")
 	public String adminIndex() {
