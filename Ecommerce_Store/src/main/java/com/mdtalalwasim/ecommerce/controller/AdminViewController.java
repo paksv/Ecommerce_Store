@@ -115,7 +115,7 @@ public class AdminViewController {
 	public String category(Model model) {
 		List<Category> allCategories = categoryService.getAllCategories();
 		for (Category category : allCategories) {
-			category.getCreatedAt();
+			//category.getCreatedAt();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
 			String format = formatter.format(category.getCreatedAt());
 			model.addAttribute("formattedDateTimeCreatedAt",format);
@@ -292,6 +292,41 @@ public class AdminViewController {
 		// return "redirect:/admin/product/edit-product";
 		return "redirect:/admin/product-list";
 	}
+	
+	
+	
+	//USER-WORK
+	//get all users
+	@GetMapping("/get-all-users")
+	public String getAllUser(Model model) {
+		
+		List<User> allUsers = userService.getAllUsersByRole("ROLE_USER");
+		for (User user : allUsers) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+			String format = formatter.format(user.getCreatedAt());
+			model.addAttribute("formattedDateTimeCreatedAt",format);
+			
+		}
+		model.addAttribute("allUsers",allUsers);
+		
+		return "/admin/users/user-home";
+		
+	}
+	
+
+	@GetMapping("/edit-user-status")
+	public String editUser(@RequestParam("status") Boolean status, @RequestParam("id") Long id, Model model, HttpSession session) {
+		Boolean updateUserStatus = userService.updateUserStatus(status,id);
+		if(updateUserStatus == true) {
+			session.setAttribute("successMsg", "User Status Updated Successfully.");
+		}
+		else {
+			session.setAttribute("errorMsg", "Something Wrong on server while Updating User status");
+		}
+		return "redirect:/admin/get-all-users";
+		
+	}
+	
 
 
 }

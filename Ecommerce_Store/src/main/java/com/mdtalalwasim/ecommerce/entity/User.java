@@ -47,6 +47,8 @@ public class User {
 	
 	private String role;
 	
+	private Boolean isEnable;
+	
 	
 	@CreationTimestamp
     private LocalDateTime createdAt;

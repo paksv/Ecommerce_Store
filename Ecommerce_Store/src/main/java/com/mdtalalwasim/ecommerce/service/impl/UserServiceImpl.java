@@ -1,7 +1,9 @@
 package com.mdtalalwasim.ecommerce.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import java.util.List;
+import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +24,7 @@ public class UserServiceImpl implements UserService{
 	public User saveUser(User user) {
 		System.out.println("user obje :"+user.toString());
 		user.setRole("ROLE_USER");
+		user.setIsEnable(true);
 		String encodedPassword = passwordEncoder.encode(user.getPassword());
 		user.setPassword(encodedPassword);
 		try {
@@ -38,6 +41,29 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return userRepository.findByEmail(email);
 	}
+
+	@Override
+	public List<User> getAllUsersByRole(String role) {
+		// TODO Auto-generated method stub
+		return userRepository.findByRole(role);
+	}
+
+	@Override
+	public Boolean updateUserStatus(Boolean status, Long id) {
+		Optional<User> userById = userRepository.findById(id);
+		if (userById.isPresent()) {
+			User user = userById.get();
+			user.setIsEnable(status);
+			userRepository.save(user);
+			
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+	
+	
 
 }
 
