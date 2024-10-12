@@ -61,8 +61,19 @@ public class HomeViewController {
 	}
 	
 	@GetMapping("/")
-	public String homeIndex() {
+	public String homeIndex(Model model) {
 		
+		List<Category> allActiveCategory = categoryService.findAllActiveCategory();
+		List<Category> latestSixActiveCategory = allActiveCategory.stream()
+				.sorted((cat1, cat2)->cat2.getId().compareTo(cat1.getId()))
+				.limit(6).toList();
+		
+		List<Product> latestEightActiveProducts = productService.findAllActiveProducts("").stream()
+				.sorted((p1,p2)->p2.getId().compareTo(p1.getId()))
+				.limit(8).toList();
+		
+		model.addAttribute("latestEightActiveProducts",latestEightActiveProducts);
+		model.addAttribute("latestSixActiveCategory",latestSixActiveCategory);
 		return "index.html";
 	}
 	
