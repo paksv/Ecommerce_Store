@@ -121,3 +121,13 @@ _**Note : Project is Not Fully Completed yet, Still More Modules are in under de
 
 ![LogoutSuccefully](https://github.com/user-attachments/assets/4c9e3fe3-3109-40d4-9233-6e078c454b6d) 
 
+
+**Category:**
+
+**Category Home:**
+![All_category-List](https://github.com/user-attachments/assets/b3dbd9da-3a76-4461-ae33-290b0eeef686)
+
+**ADD Category:**
+![Add-a-Category](https://github.com/user-attachments/assets/f82f9e24-090c-4744-a289-617a51189441)
+
+
