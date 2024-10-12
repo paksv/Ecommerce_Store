@@ -81,9 +81,6 @@ _**Note : Project is Not Fully Completed yet, Still More Modules are in under de
 ![index-page-03](https://github.com/user-attachments/assets/80dfd50a-f97b-47bb-b787-a19f4188d938)
 ![Index-page-04-with-category-Dropdown](https://github.com/user-attachments/assets/565dcb55-640b-4873-a41f-af4a7580d62a)
 
-**Admin Dashboard**
-![Admin-Dashboard](https://github.com/user-attachments/assets/21f43839-2490-4e43-a742-de26f2932a7b)
-
 
 **Register Page**
 
@@ -94,6 +91,10 @@ _**Note : Project is Not Fully Completed yet, Still More Modules are in under de
 
 ![Login Page](https://github.com/user-attachments/assets/9fe201bd-110f-4401-8453-d7db2987243a)
 
+
+**Admin Dashboard**
+
+![Admin-Dashboard](https://github.com/user-attachments/assets/21f43839-2490-4e43-a742-de26f2932a7b)
 
 
 **User:**
