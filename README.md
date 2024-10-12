@@ -81,5 +81,42 @@ _**Note : Project is Not Fully Completed yet, Still More Modules are in under de
 ![index-page-03](https://github.com/user-attachments/assets/80dfd50a-f97b-47bb-b787-a19f4188d938)
 ![Index-page-04-with-category-Dropdown](https://github.com/user-attachments/assets/565dcb55-640b-4873-a41f-af4a7580d62a)
 
+**Admin Dashboard**
+![Admin-Dashboard](https://github.com/user-attachments/assets/21f43839-2490-4e43-a742-de26f2932a7b)
 
+
+**Register Page**
+
+![Register-User-Page](https://github.com/user-attachments/assets/0da3cff5-67b3-477e-9ca3-e2bd1dab0b63)
+
+
+**Login Page:**
+
+![Login Page](https://github.com/user-attachments/assets/9fe201bd-110f-4401-8453-d7db2987243a)
+
+
+
+**User:**
+
+![User-Login-Page](https://github.com/user-attachments/assets/c3ef8cc8-c68c-4ef3-a754-54bae322c9f6)
+
+**User After Login:**
+![User_Login_Index_Page](https://github.com/user-attachments/assets/720873b4-638a-4b7e-852f-97ea7fa70433)
+
+
+**User Disable Feature :**
+
+
+![WhenUser-Disable](https://github.com/user-attachments/assets/a84c2068-e606-4ad3-a7b5-46a27be25755)
+
+
+**Wrong Password Enter:**
+
+![WrongPasswordLoginTry](https://github.com/user-attachments/assets/97d1e4e5-dfbd-42ec-a198-ea5cf764e007)
+
+
+**Logout:**
+
+
+![LogoutSuccefully](https://github.com/user-attachments/assets/4c9e3fe3-3109-40d4-9233-6e078c454b6d) 
 
