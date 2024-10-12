@@ -57,3 +57,15 @@ spring.datasource.password=your-password
 ```
 **5. Run the application:** 
 **Access the app at http://localhost:8080.**
+
+
+More keyword related to this project: 
+- Ecommerce Store Java
+- Spring Boot MVC Ecommerce
+- Thymeleaf Spring Boot
+- Ecommerce website Spring Security
+- Java Spring Boot Shopping Cart
+- MySQL Spring Boot Ecommerce
+- Ecommerce Project with Java and MySQL
+- Java Ecommerce Repository
+- Spring boot Ecommerce Repository
