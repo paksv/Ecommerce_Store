@@ -57,6 +57,7 @@ public class User {
 	
 	private Date accountLockTime;
 	
+	private String resetTokens;
 	
 	@CreationTimestamp
     private LocalDateTime createdAt;
