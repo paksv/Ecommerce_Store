@@ -13,4 +13,14 @@ public interface UserService {
 	public List<User> getAllUsersByRole(String role);
 
 	public Boolean updateUserStatus(Boolean status, Long id);
+	
+	//lock user account for attempting wrong credentials
+	public void userFailedAttemptIncrease(User user);
+	
+	public void userAccountLock(User user);
+	
+	public boolean isUnlockAccountTimeExpired(User user);
+	
+	public void userFailedAttempt(int userId);
+	
 }

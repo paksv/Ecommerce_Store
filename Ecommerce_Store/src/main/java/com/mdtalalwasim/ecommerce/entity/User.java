@@ -1,6 +1,7 @@
 package com.mdtalalwasim.ecommerce.entity;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -48,6 +49,13 @@ public class User {
 	private String role;
 	
 	private Boolean isEnable;
+	
+	//implement user account lock for wrong password
+	private Boolean accountStatusNonLocked;
+	
+	private Integer accountfailedAttemptCount;
+	
+	private Date accountLockTime;
 	
 	
 	@CreationTimestamp

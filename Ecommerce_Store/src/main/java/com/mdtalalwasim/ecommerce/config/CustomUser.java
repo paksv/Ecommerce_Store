@@ -43,7 +43,7 @@ public class CustomUser implements UserDetails{
 	@Override
 	public boolean isAccountNonLocked() {
 		// TODO Auto-generated method stub
-		return true;
+		return user.getAccountStatusNonLocked();
 	}
 
 	@Override
