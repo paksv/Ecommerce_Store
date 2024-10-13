@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
@@ -28,8 +29,10 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.mdtalalwasim.ecommerce.entity.Category;
 import com.mdtalalwasim.ecommerce.entity.Product;
+import com.mdtalalwasim.ecommerce.entity.User;
 import com.mdtalalwasim.ecommerce.service.CategoryService;
 import com.mdtalalwasim.ecommerce.service.ProductService;
+import com.mdtalalwasim.ecommerce.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -42,7 +45,26 @@ public class AdminViewController {
 	
 	@Autowired
 	ProductService productService;
+
+	@Autowired
+	UserService userService;
 	
+	//to track which user is login right Now
+	//by default call this method when any request come to this controller because of @ModelAttribut
+	@ModelAttribute 
+	public void getUserDetails(Principal principal, Model model) {
+		if(principal != null) {
+			String currenLoggedInUserEmail = principal.getName();
+			User currentUserDetails = userService.getUserByEmail(currenLoggedInUserEmail);
+			System.out.println("Current Logged In User is :: ADMIN Controller :: "+currentUserDetails.toString());
+			model.addAttribute("currentLoggedInUserDetails",currentUserDetails);
+			
+			
+		}
+		List<Category> allActiveCategory = categoryService.findAllActiveCategory();
+		model.addAttribute("allActiveCategory",allActiveCategory);
+		
+	}
 	
 	@GetMapping("/")
 	public String adminIndex() {
@@ -93,7 +115,7 @@ public class AdminViewController {
 	public String category(Model model) {
 		List<Category> allCategories = categoryService.getAllCategories();
 		for (Category category : allCategories) {
-			category.getCreatedAt();
+			//category.getCreatedAt();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
 			String format = formatter.format(category.getCreatedAt());
 			model.addAttribute("formattedDateTimeCreatedAt",format);
@@ -270,6 +292,41 @@ public class AdminViewController {
 		// return "redirect:/admin/product/edit-product";
 		return "redirect:/admin/product-list";
 	}
+	
+	
+	
+	//USER-WORK
+	//get all users
+	@GetMapping("/get-all-users")
+	public String getAllUser(Model model) {
+		
+		List<User> allUsers = userService.getAllUsersByRole("ROLE_USER");
+		for (User user : allUsers) {
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+			String format = formatter.format(user.getCreatedAt());
+			model.addAttribute("formattedDateTimeCreatedAt",format);
+			
+		}
+		model.addAttribute("allUsers",allUsers);
+		
+		return "/admin/users/user-home";
+		
+	}
+	
+
+	@GetMapping("/edit-user-status")
+	public String editUser(@RequestParam("status") Boolean status, @RequestParam("id") Long id, Model model, HttpSession session) {
+		Boolean updateUserStatus = userService.updateUserStatus(status,id);
+		if(updateUserStatus == true) {
+			session.setAttribute("successMsg", "User Status Updated Successfully.");
+		}
+		else {
+			session.setAttribute("errorMsg", "Something Wrong on server while Updating User status");
+		}
+		return "redirect:/admin/get-all-users";
+		
+	}
+	
 
 
 }
