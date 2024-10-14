@@ -2,15 +2,19 @@ package com.mdtalalwasim.ecommerce.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.ObjectUtils;
@@ -27,7 +31,10 @@ import com.mdtalalwasim.ecommerce.entity.User;
 import com.mdtalalwasim.ecommerce.service.CategoryService;
 import com.mdtalalwasim.ecommerce.service.ProductService;
 import com.mdtalalwasim.ecommerce.service.UserService;
+import com.mdtalalwasim.ecommerce.utils.CommonUtils;
 
+import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -41,6 +48,14 @@ public class HomeViewController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	CommonUtils commonUtils;
+	
+//	@Autowired
+//	BCryptPasswordEncoder bCryptPasswordEncoder;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 	
 	//to track which user is login right Now
 	//by default call this method when any request come to this controller because of @ModelAttribut
@@ -140,6 +155,83 @@ public class HomeViewController {
 		}
 		//model.addAttribute("product",productById);
 		return "redirect:/register";
+	}
+	
+	
+	//forgot Password
+	
+	@GetMapping("/forgot-password")
+	public String forgotPassword() 
+	{
+		
+		return "forget-password";
+	}
+	
+	
+	@PostMapping("/forgot-password")
+	public String forgetPasswordProcessing(@RequestParam String email, HttpSession session, HttpServletRequest request) throws UnsupportedEncodingException, MessagingException 
+	{
+		User user = userService.getUserByEmail(email);
+		if(!ObjectUtils.isEmpty(user)) {
+			
+			String resetToken = UUID.randomUUID().toString();
+			System.out.println("RESET TOKEN: "+resetToken);
+			userService.updateUserResetTokenForSendingEmail(email, resetToken);
+			
+			
+			//URL Like This : http://localhost:8080/reset-password?token=dfjdlkfjsldfdlfkdflkdfjdlk
+			String url = CommonUtils.generateUrl(request)+"/reset-password?token="+resetToken;
+			System.out.println("url :"+url);
+			
+			
+			//Boolean isEmailSendToUser = CommonUtils.sendEmail(url, email);
+			Boolean isEmailSendToUser = commonUtils.sendEmail(url, email);
+			
+			if(isEmailSendToUser == true) {
+				session.setAttribute("successMsg", "Please check your email, Password Reset Link has been sent to your email.");
+			}else {
+				session.setAttribute("errorMsg", "Something wrong on server. Email Not Sent!");
+			}
+		
+		}else {
+			session.setAttribute("errorMsg", "Invalid Email");
+		}
+		return "redirect:/forgot-password";
+	}
+	
+	//reset password
+	@GetMapping("/reset-password")
+	public String resetPassword(@RequestParam String token, HttpSession session, Model model) 
+	{
+		User userByToken = userService.getUserByresetTokens(token);
+		if(ObjectUtils.isEmpty(userByToken)) {
+			//session.setAttribute("errorMsg", "Invalid TOKEN");
+			model.addAttribute("msg", "Your Link is invalid or expired!");
+			return "message";
+		}
+		model.addAttribute("token", token);
+		return "reset-password";
+	}
+	
+	@PostMapping("/reset-password")
+	public String resetPasswordOperation(@RequestParam String token, @RequestParam String password, HttpSession session, Model model) 
+	{
+		
+		User userByToken = userService.getUserByresetTokens(token);
+		if(ObjectUtils.isEmpty(userByToken)) {
+			model.addAttribute("msg", "Your Link is invalid or expired!");
+			return "message";
+		}else {
+			
+			//userByToken.setPassword(bCryptPasswordEncoder.encode(password));
+			userByToken.setPassword(passwordEncoder.encode(password));
+			userByToken.setResetTokens(null);
+			User updatedUser = userService.updateUserWhileResetingPassword(userByToken);//this method only update user's password and ResetTokens.
+			session.setAttribute("successMsg", "Password Changed Successfully");
+			model.addAttribute("msg", "Password Changed Successfully");
+			return "message";
+		}
+		
 	}
 	
 }
