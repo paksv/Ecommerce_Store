@@ -1,5 +1,6 @@
 package com.mdtalalwasim.ecommerce.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -61,8 +62,36 @@ public class CartServiceImpl implements CartService{
 
 	@Override
 	public List<Cart> getCartsByUser(Long userId) {
-		// TODO Auto-generated method stub
-		return null;
+	 List<Cart> carts = cartRepository.findByUserId(userId);
+	 //System.out.println("CARTS :"+carts.toString());
+	 
+	 Double totalOrderPrice = 0.0;
+	 
+		// because of my totalPrice colum is transient, so we dont get totalPrice
+		// directly from database table.
+		// we need to fetch it
+	 List<Cart> updatedCartList = new ArrayList<>();
+		for (Cart cart : carts) {
+			Double totalPrice = (cart.getProduct().getDiscountPrice() * cart.getQuantity());
+			cart.setTotalPrice(totalPrice);
+			System.out.println("totalPrice is :"+totalPrice);
+			
+			totalOrderPrice = totalOrderPrice + totalPrice;
+			
+			cart.setTotalOrderPrice(totalOrderPrice);
+			System.out.println("totalOrderPrice is :"+totalOrderPrice);
+			updatedCartList.add(cart);
+		}
+		
+	 
+	 
+		return updatedCartList;
+	}
+
+	@Override
+	public Long getCounterCart(Long userId) {
+		Long cartCountByUserId = cartRepository.countByUserId(userId);
+		return cartCountByUserId;
 	}
 
 }
