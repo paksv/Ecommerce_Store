@@ -44,6 +44,10 @@ public class UserController {
 			System.out.println("Current Logged In User is :: USER Controller :: "+currentUserDetails.toString());
 			model.addAttribute("currentLoggedInUserDetails",currentUserDetails);
 			
+			//for showing user cart count
+			Long countCartForUser = cartService.getCounterCart(currentUserDetails.getId());
+			System.out.println("User Cart Count :"+countCartForUser);
+			model.addAttribute("countCartForUser", countCartForUser);
 		}
 		
 		List<Category> allActiveCategory = categoryService.findAllActiveCategory();
@@ -74,5 +78,29 @@ public class UserController {
 		System.out.println("pid"+productId+" uid:"+userId);
 		return "redirect:/product/" + productId;
 	}
+	
+	@GetMapping("/cart")
+	String loadCartPage(Principal principal, Model model) {
+		//when load cart, it is showing logged in user cart details:
+		
+		
+		User user = getLoggedUserDetails(principal);
+		List<Cart> carts = cartService.getCartsByUser(user.getId());
+		Double totalOrderPrice = carts.get(carts.size()-1).getTotalOrderPrice();
+		
+		model.addAttribute("carts", carts);
+		model.addAttribute("totalOrderPrice", totalOrderPrice);
+		return "user/cart";
+	}
+
+
+	private User getLoggedUserDetails(Principal principal) {
+		String email = principal.getName();
+		User user = userService.getUserByEmail(email);
+		return user;
+	}
+
+
+
 	
 }

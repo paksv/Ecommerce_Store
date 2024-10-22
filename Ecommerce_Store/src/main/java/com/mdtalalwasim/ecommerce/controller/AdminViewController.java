@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mdtalalwasim.ecommerce.entity.Category;
 import com.mdtalalwasim.ecommerce.entity.Product;
 import com.mdtalalwasim.ecommerce.entity.User;
+import com.mdtalalwasim.ecommerce.service.CartService;
 import com.mdtalalwasim.ecommerce.service.CategoryService;
 import com.mdtalalwasim.ecommerce.service.ProductService;
 import com.mdtalalwasim.ecommerce.service.UserService;
@@ -49,6 +50,9 @@ public class AdminViewController {
 	@Autowired
 	UserService userService;
 	
+	@Autowired
+	CartService cartService;
+	
 	//to track which user is login right Now
 	//by default call this method when any request come to this controller because of @ModelAttribut
 	@ModelAttribute 
@@ -59,6 +63,10 @@ public class AdminViewController {
 			System.out.println("Current Logged In User is :: ADMIN Controller :: "+currentUserDetails.toString());
 			model.addAttribute("currentLoggedInUserDetails",currentUserDetails);
 			
+			//for showing user cart count
+			Long countCartForUser = cartService.getCounterCart(currentUserDetails.getId());
+			System.out.println("Admin Cart Count :"+countCartForUser);
+			model.addAttribute("countCartForUser", countCartForUser);
 			
 		}
 		List<Category> allActiveCategory = categoryService.findAllActiveCategory();

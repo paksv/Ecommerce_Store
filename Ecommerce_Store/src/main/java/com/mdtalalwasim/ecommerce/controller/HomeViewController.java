@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.mdtalalwasim.ecommerce.entity.Category;
 import com.mdtalalwasim.ecommerce.entity.Product;
 import com.mdtalalwasim.ecommerce.entity.User;
+import com.mdtalalwasim.ecommerce.service.CartService;
 import com.mdtalalwasim.ecommerce.service.CategoryService;
 import com.mdtalalwasim.ecommerce.service.ProductService;
 import com.mdtalalwasim.ecommerce.service.UserService;
@@ -52,6 +53,9 @@ public class HomeViewController {
 	@Autowired
 	CommonUtils commonUtils;
 	
+	@Autowired
+	CartService cartService;
+	
 //	@Autowired
 //	BCryptPasswordEncoder bCryptPasswordEncoder;
 	@Autowired
@@ -67,6 +71,10 @@ public class HomeViewController {
 			System.out.println("Current Logged In User is :: HOME Controller :: "+currentUserDetails.toString());
 			model.addAttribute("currentLoggedInUserDetails",currentUserDetails);
 			
+			//for showing user cart count
+			Long countCartForUser = cartService.getCounterCart(currentUserDetails.getId());
+			System.out.println("HomeControll Cart Count :"+countCartForUser);
+			model.addAttribute("countCartForUser", countCartForUser);
 			
 		}
 		

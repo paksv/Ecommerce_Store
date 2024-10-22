@@ -10,5 +10,6 @@ public interface CartService {
 	
 	public List<Cart> getCartsByUser(Long userId);
 	
+	public Long getCounterCart(Long userId);
 	
 }
