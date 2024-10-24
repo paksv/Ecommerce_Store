@@ -33,31 +33,35 @@ public class AuthFailureHandlerImpl extends SimpleUrlAuthenticationFailureHandle
 		String email = request.getParameter("username");
 		User user = userRepository.findByEmail(email);
 		
-		if(user.getIsEnable()) {
-			//account is active
-			
-			if(user.getAccountStatusNonLocked()) {
-				//Non-locked / Unlocked
-				if(user.getAccountfailedAttemptCount() < AppConstant.ATTEMPT_COUNT) {
-					userService.userFailedAttemptIncrease(user);
+		if(user != null) {
+			if(user.getIsEnable()) {
+				//account is active
+				
+				if(user.getAccountStatusNonLocked()) {
+					//Non-locked / Unlocked
+					if(user.getAccountfailedAttemptCount() < AppConstant.ATTEMPT_COUNT) {
+						userService.userFailedAttemptIncrease(user);
+					}else {
+						//
+						userService.userAccountLock(user);
+						exception = new LockedException("Your account is Locked! Failed Attempt 3");
+					}
+					
 				}else {
-					//
-					userService.userAccountLock(user);
-					exception = new LockedException("Your account is Locked! Failed Attempt 3");
+					//Locked
+					if(userService.isUnlockAccountTimeExpired(user)) {
+						exception = new LockedException("Your account is UnLocked, Now you can login to system");
+					}else {
+						exception = new LockedException("Your account is Locked! Please try after sometimes");
+					}
 				}
 				
 			}else {
-				//Locked
-				if(userService.isUnlockAccountTimeExpired(user)) {
-					exception = new LockedException("Your account is UnLocked, Now you can login to system");
-				}else {
-					exception = new LockedException("Your account is Locked! Please try after sometimes");
-				}
+				//account is inactive
+				exception = new LockedException("Your account is inactive");
 			}
-			
 		}else {
-			//account is inactive
-			exception = new LockedException("Your account is inactive");
+			exception = new LockedException("Email & Password Invalid!");
 		}
 		
 		super.setDefaultFailureUrl("/signin?error");
