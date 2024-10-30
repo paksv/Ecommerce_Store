@@ -23,7 +23,7 @@ The backend used **Spring Boot** for clean, structured code with a **service lay
       - User authentication and authorization with Spring Security.
       - Protected routes and roles-based access control.
   
- - **Deployment:** Packaged as a WAR file, suitable for deployment on any servlet container like Apache Tomcat.
+ - **Deployment:** Packaged as a **WAR** file, suitable for deployment on any servlet container like Apache Tomcat.
 
  - **Modern Development Practices:**
       - Spring Boot DevTools for faster development and hot reload.
