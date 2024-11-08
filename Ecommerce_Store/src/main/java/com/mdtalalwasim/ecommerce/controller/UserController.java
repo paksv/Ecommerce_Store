@@ -86,13 +86,22 @@ public class UserController {
 		
 		User user = getLoggedUserDetails(principal);
 		List<Cart> carts = cartService.getCartsByUser(user.getId());
-		Double totalOrderPrice = carts.get(carts.size()-1).getTotalOrderPrice();
-		
 		model.addAttribute("carts", carts);
-		model.addAttribute("totalOrderPrice", totalOrderPrice);
-		return "user/cart";
+		if(carts.size() > 0) {
+			Double totalOrderPrice = carts.get(carts.size()-1).getTotalOrderPrice();
+			model.addAttribute("totalOrderPrice", totalOrderPrice);
+		}
+		
+		
+		return "/user/cart";
 	}
 
+	@GetMapping("/cart-quantity-update")
+	public String updateCartQuantity(@RequestParam("symbol") String symbol , @RequestParam("cartId") Long cartId){
+		System.out.println(symbol+ " " + cartId);
+		Boolean f = cartService.updateCartQuantity(symbol, cartId);
+		return "redirect:/user/cart";
+	}
 
 	private User getLoggedUserDetails(Principal principal) {
 		String email = principal.getName();

@@ -121,7 +121,9 @@ public class AdminViewController {
 
 	@GetMapping("/category")
 	public String category(Model model) {
+		System.out.println("category:WWWWWWWWW");
 		List<Category> allCategories = categoryService.getAllCategories();
+		System.out.println("category: "+allCategories.toString());
 		for (Category category : allCategories) {
 			//category.getCreatedAt();
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd-MM-yyy HH:mm:ss");
@@ -132,7 +134,7 @@ public class AdminViewController {
 		
 		model.addAttribute("allCategoryList",allCategories);
 		
-		return "admin/category/category-home";
+		return "/admin/category/category-home";
 	}
 	
 	

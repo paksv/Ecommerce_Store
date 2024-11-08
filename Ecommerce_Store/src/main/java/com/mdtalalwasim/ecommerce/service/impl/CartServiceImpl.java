@@ -94,6 +94,33 @@ public class CartServiceImpl implements CartService{
 		return cartCountByUserId;
 	}
 
+	@Override
+	public Boolean updateCartQuantity(String symbol, Long cartId) {
+		
+		Optional<Cart> cart = cartRepository.findById(cartId);
+		int quantity;
+		if(cart.isPresent()) {
+			if(symbol.equalsIgnoreCase("decrease")) {
+				Integer dbQty = cart.get().getQuantity();
+				quantity	= dbQty - 1;
+				if(quantity <= 0) {
+					cartRepository.deleteById(cartId);
+					return true;
+				}
+				
+			}else {
+				Integer dbQty = cart.get().getQuantity();
+				quantity	= dbQty + 1;
+			}
+			cart.get().setQuantity(quantity);
+			cartRepository.save(cart.get());
+		}
+		
+		
+		
+		return false;
+	}
+
 }
 
 
