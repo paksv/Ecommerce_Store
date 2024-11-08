@@ -41,12 +41,12 @@ public class UserController {
 		if(principal != null) {
 			String currenLoggedInUserEmail = principal.getName();
 			User currentUserDetails = userService.getUserByEmail(currenLoggedInUserEmail);
-			System.out.println("Current Logged In User is :: USER Controller :: "+currentUserDetails.toString());
+			//System.out.println("Current Logged In User is :: USER Controller :: "+currentUserDetails.toString());
 			model.addAttribute("currentLoggedInUserDetails",currentUserDetails);
 			
 			//for showing user cart count
 			Long countCartForUser = cartService.getCounterCart(currentUserDetails.getId());
-			System.out.println("User Cart Count :"+countCartForUser);
+			//System.out.println("User Cart Count :"+countCartForUser);
 			model.addAttribute("countCartForUser", countCartForUser);
 		}
 		
@@ -107,6 +107,13 @@ public class UserController {
 		String email = principal.getName();
 		User user = userService.getUserByEmail(email);
 		return user;
+	}
+	
+	
+	@GetMapping("/orders")
+	public String orderPage() {
+		
+		return "/user/order";
 	}
 
 
