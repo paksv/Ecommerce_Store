@@ -68,7 +68,12 @@
 										<td><img th:src="@{'/img/product_image/'+${cart.product.productImage}}" width="50px;" height="50px;"></td>
 										<td>[[${cart.product.productTitle}]]</td>
 										<td>[[${cart.product.discountPrice}]]</td>
-										<td class="text-center"><i class="fa-solid fa-minus"></i> [ [[${cart.quantity}]] ] <i class="fa-solid fa-plus"></i></td>
+										
+										<td class="text-center"><a th:href="@{'/user/cart-quantity-update?symbol=decrease&cartId='+${cart.id}}" style="text-decoration:none;">
+										<i class="fa-solid fa-minus"></i></a> [ [[${cart.quantity}]] ] 
+										<a th:href="@{'/user/cart-quantity-update?symbol=increase&cartId='+${cart.id}}" style="text-decoration:none;"><i class="fa-solid fa-plus"></i></a>
+										</td>
+										
 										<td>[[${cart.totalPrice}]]</td>
 										
 										
@@ -80,9 +85,9 @@
 										<td class="fw-bold">&#2547; [[${totalOrderPrice}]]</td>
 									</tr>
 									
-									
 								</tbody>
 							</table>
+							<div class="text-center"><a href="#" class="btn btn-warning">Proceed Payment</a></div>
 						</div>
 					</div>
 				</div>

@@ -11,5 +11,7 @@ public interface CartService {
 	public List<Cart> getCartsByUser(Long userId);
 	
 	public Long getCounterCart(Long userId);
+
+	public Boolean updateCartQuantity(String symbol, Long cartId);
 	
 }
