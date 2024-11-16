@@ -7,10 +7,11 @@
 </head>
 <body>
 	<section>
-		<div class="container mt-5 p-5">
+		<div class="container mt-5">
 			<div class="row">
-				<div class="col-md-6 p-5">
+				<div class="col-md-6">
 				<p class="fs-4 text-center">Please Fill Up</p>
+				<hr>
 				<form action="">
 					<div class="mb-5 row">
 						<div class="col">
@@ -50,29 +51,48 @@
 					
 				</form>
 			</div>
-			<div class="col-md-6 mt-3 p-5">
+			<div class="col-md-6">
+				<p class="fs-4 text-center">Payment Type</p>
+				<hr>
+				
+				<div class="card">
+					<div class="card-body">
+						<table class="table table-borderless">
+								<tbody>
+									<tr>
+										<td>Total Price</td>
+										<td>:</td>
+										<td>&#2547; 125025</td>
+									</tr>
+									<tr>
+										<td>Delivery Cost</td>
+										<td>:</td>
+										<td>&#2547; 125025</td>
+									</tr>
+									<tr>
+										<td>Tax</td>
+										<td>:</td>
+										<td>&#2547; 125025</td>
+									</tr>
+								</tbody>
+							</table>
+					</div>
+				</div>
+				
 				<div class="card shadow p-3 mb-5 bg-body rounded">
-						<div class="card-header">
-							<p class="fs-4 text-center">Login</p>
-
-							<!-- Logout and Signin Error Alert -->
-							<div th:if="${param.error}" class="alert alert-danger text-center">[[${session.SPRING_SECURITY_LAST_EXCEPTION.message}]]</div>
-							<div th:if="${param.logout}" class="alert alert-success text-center">Logout Successfully.</div>
-							<!-- Logout and Signin Error Alert -->		
-
-						</div>
+						
 						<div class="card-body">
 						<form action="/login" method="post">
 							<div class="mb-3">
-								<label class="form-label">Email</label> <input
-									class="form-control" name="username" type="email" />
+								<label class="form-label">Select Payment Type</label> 
+								<select class="form-control">
+									<option>---Select---</option>
+									<option>Cash On Delivery</option>
+									<option>Online Payment</option>
+								</select>
 							</div>
 							
-							<div class="mb-3">
-								<label class="form-label">Password</label> <input
-									class="form-control" name="password" type="password" />
-							</div>
-							<button type="submit" class="btn bg-danger text-white col-md-12">Submit</button>
+							<button type="submit" class="btn bg-danger text-white col-md-12">Place Order</button>
 						</form>
 
 						
