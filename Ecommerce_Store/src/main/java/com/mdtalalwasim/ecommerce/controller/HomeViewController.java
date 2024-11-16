@@ -68,7 +68,7 @@ public class HomeViewController {
 		if(principal != null) {
 			String currenLoggedInUserEmail = principal.getName();
 			User currentUserDetails = userService.getUserByEmail(currenLoggedInUserEmail);
-			System.out.println("Current Logged In User is :: HOME Controller :: "+currentUserDetails.toString());
+			//System.out.println("Current Logged In User is :: HOME Controller :: "+currentUserDetails.toString());
 			model.addAttribute("currentLoggedInUserDetails",currentUserDetails);
 			
 			//for showing user cart count

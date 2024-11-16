@@ -60,7 +60,7 @@ public class AdminViewController {
 		if(principal != null) {
 			String currenLoggedInUserEmail = principal.getName();
 			User currentUserDetails = userService.getUserByEmail(currenLoggedInUserEmail);
-			System.out.println("Current Logged In User is :: ADMIN Controller :: "+currentUserDetails.toString());
+			//System.out.println("Current Logged In User is :: ADMIN Controller :: "+currentUserDetails.toString());
 			model.addAttribute("currentLoggedInUserDetails",currentUserDetails);
 			
 			//for showing user cart count
