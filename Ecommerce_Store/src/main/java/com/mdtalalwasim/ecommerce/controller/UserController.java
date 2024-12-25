@@ -111,8 +111,19 @@ public class UserController {
 	
 	
 	@GetMapping("/orders")
-	public String orderPage() {
+	public String orderPage(Principal principal, Model model) {
+		//when load cart, it is showing logged in user cart details:
 		
+		
+				User user = getLoggedUserDetails(principal);
+				List<Cart> carts = cartService.getCartsByUser(user.getId());
+				model.addAttribute("carts", carts);
+				if(carts.size() > 0) {
+					Double orderPrice = carts.get(carts.size()-1).getTotalOrderPrice();
+					Double totalOrderPrice = carts.get(carts.size()-1).getTotalOrderPrice()+ 250+ 100;
+					model.addAttribute("orderPrice", orderPrice);
+					model.addAttribute("totalOrderPrice", totalOrderPrice);
+				}
 		return "/user/order";
 	}
 
