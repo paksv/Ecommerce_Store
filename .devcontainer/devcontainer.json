@@ -10,7 +10,6 @@
     }
   },
   "forwardPorts": [8080, 3306],
-  "postCreateCommand": "mvn clean install -DskipTests",
   "customizations": {
     "vscode": {
       "extensions": [
