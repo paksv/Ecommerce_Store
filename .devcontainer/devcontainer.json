@@ -1,4 +1,22 @@
 {
-  "name": "Node.js",
-  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-18-bullseye"
+  "name": "Java Spring Boot",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "app",
+  "workspaceFolder": "/workspaces/${localWorkspaceFolderBasename}",
+  "features": {
+    "ghcr.io/devcontainers/features/java:1": {
+      "version": "17",
+      "installMaven": true
+    }
+  },
+  "forwardPorts": [8080, 3306],
+  "postCreateCommand": "mvn clean install -DskipTests",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "vscjava.vscode-java-pack",
+        "pivotal.vscode-spring-boot"
+      ]
+    }
+  }
 }
