@@ -26,7 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.mdtalalwasim.ecommerce.model.User;
+import com.mdtalalwasim.ecommerce.entity.User;
 import com.mdtalalwasim.ecommerce.service.UserService;
 
 @WebMvcTest(UserController.class)

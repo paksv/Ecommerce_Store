@@ -23,8 +23,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.mdtalalwasim.ecommerce.model.Product;
-import com.mdtalalwasim.ecommerce.model.Category;
+import com.mdtalalwasim.ecommerce.entity.Product;
+import com.mdtalalwasim.ecommerce.entity.Category;
 import com.mdtalalwasim.ecommerce.service.ProductService;
 import com.mdtalalwasim.ecommerce.service.CategoryService;
 
