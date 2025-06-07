@@ -4,7 +4,7 @@ services:
   app:
     image: mcr.microsoft.com/devcontainers/java:17
     volumes:
-      - ../../:/workspaces/${localWorkspaceFolderBasename}:cached
+      - ../../:/workspaces:cached
     command: sleep infinity
     network_mode: service:db
     environment:
