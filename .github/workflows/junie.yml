@@ -1,5 +1,3 @@
-#check-updates: false
-
 name: Junie
 run-name: Junie run ${{ inputs.run_id }}
 
@@ -19,6 +17,6 @@ on:
 
 jobs:
   call-workflow-passing-data:
-    uses: jetbrains-junie/junie-workflows/.github/workflows/ej-issue.yml@spak-test
+    uses: jetbrains-junie/junie-workflows/.github/workflows/ej-issue.yml@main
     with:
       workflow_params: ${{ inputs.workflow_params }}
